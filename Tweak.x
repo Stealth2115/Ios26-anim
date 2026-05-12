@@ -20,13 +20,13 @@
 #import <objc/runtime.h>
 
 // ---------- TUNABLES (edit these to taste) ----------
-static const double kOpenResponse      = 0.42;  // lower = snappier
-static const double kOpenDamping       = 0.86;  // ~iOS 26 feel
-static const double kCloseResponse     = 0.48;
-static const double kCloseDamping      = 0.92;
-static const double kOpenDuration      = 0.45;  // iOS 16 default ~0.55
-static const double kCloseDuration     = 0.42;
-static const double kGlassBlurAlpha    = 0.55;
+static const double kOpenResponse      = 0.90;  // lower = snappier
+static const double kOpenDamping       = 0.60;  // ~iOS 26 feel
+static const double kCloseResponse     = 0.90;
+static const double kCloseDamping      = 0.60;
+static const double kOpenDuration      = 1.50;  // iOS 16 default ~0.55
+static const double kCloseDuration     = 1.50;
+static const double kGlassBlurAlpha    = 0.95;
 static const double kGlassFadeIn       = 0.12;
 static const double kGlassFadeOut      = 0.22;
 // ----------------------------------------------------
@@ -107,12 +107,12 @@ static void presentGlassOverlay(void) {
     double v = %orig;
     // Only override the "app transition" presets — leave dock / folder alone.
     // Heuristic: SpringBoard's app-transition preset uses response ~0.5–0.6.
-    if (v > 0.35 && v < 0.75) return gIsOpening ? kOpenResponse : kCloseResponse;
+    return gIsOpening ? kOpenResponse : kCloseResponse;
     return v;
 }
 - (double)dampingRatio {
     double v = %orig;
-    if (v > 0.6 && v < 1.05) return gIsOpening ? kOpenDamping : kCloseDamping;
+    return gIsOpening ? kOpenDamping : kCloseDamping;
     return v;
 }
 %end
