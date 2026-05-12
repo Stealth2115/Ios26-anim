@@ -1,0 +1,30 @@
+name: Build .deb
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Theos
+        run: |
+          export THEOS=$HOME/theos
+          echo "THEOS=$THEOS" >> $GITHUB_ENV
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+      - name: Install iOS 16.5 SDK
+        run: |
+          cd $THEOS/sdks
+          git clone --depth=1 --filter=blob:none --no-checkout https://github.com/xybp888/iOS-SDKs.git
+          cd iOS-SDKs
+          git sparse-checkout init --cone
+          git sparse-checkout set iPhoneOS16.5.sdk
+          git checkout
+          mv iPhoneOS16.5.sdk ..
+          cd .. && rm -rf iOS-SDKs
+      - name: Build
+        run: make package FINALPACKAGE=1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iOS26Anim-deb
+          path: packages/*.deb
