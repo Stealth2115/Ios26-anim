@@ -160,7 +160,7 @@ static void presentGlassOverlay(void) {
     %orig;
     // After SpringBoard sets up its layers, bump the icon-view's
     // corner radius so the morph holds the rounded shape longer.
-    UIView *iconView = [self valueForKey:@"iconView"] ?: nil;
+UIView *iconView = [(NSObject *)self valueForKey:@"iconView"];
     if (iconView) {
         iconView.layer.cornerCurve = kCACornerCurveContinuous;
     }
