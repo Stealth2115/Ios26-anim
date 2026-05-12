@@ -1,0 +1,9 @@
+Package: com.yourname.ios26anim
+Name: iOS26 Animations
+Version: 0.1.0
+Architecture: iphoneos-arm64
+Description: Brings iOS 26-style app open/close animations to iOS 16 — bouncier spring physics, smoother corner-radius morph, and a soft glass blur transition.
+Maintainer: yourname
+Author: yourname
+Section: Tweaks
+Depends: ellekit (>= 1.0.0)
