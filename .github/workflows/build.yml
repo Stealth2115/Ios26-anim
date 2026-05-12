@@ -9,12 +9,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Theos
         run: |
-          export THEOS=$HOME/theos
-          echo "THEOS=$THEOS" >> $GITHUB_ENV
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+          git clone --recursive https://github.com/theos/theos.git $HOME/theos
+          echo "THEOS=$HOME/theos" >> $GITHUB_ENV
       - name: Install iOS 16.5 SDK
         run: |
-          cd $THEOS/sdks
+          cd $HOME/theos/sdks
           git clone --depth=1 --filter=blob:none --no-checkout https://github.com/xybp888/iOS-SDKs.git
           cd iOS-SDKs
           git sparse-checkout init --cone
@@ -22,6 +21,8 @@ jobs:
           git checkout
           mv iPhoneOS16.5.sdk ..
           cd .. && rm -rf iOS-SDKs
+      - name: Install ldid
+        run: brew install ldid
       - name: Build
         run: make package FINALPACKAGE=1
       - uses: actions/upload-artifact@v4
